@@ -1,0 +1,12 @@
+import requests
+def printf(racist_mf_x=0):
+    if(racist_mf_x==0):
+        print("1 - Build a CNN model to perform Handwritten Number Recognition using Tensorflow\n2 - Experiment the model performance using the ImageNet, LeNet and AlexNet CNN models.\n3 - Experiment the model performance using the VGGNet, GoogleLENet and ResNet CNN models.\n4 - Perform detection of object using Faster R-CNN.\n5 - Apply YOLO object detection algorithm for real world problem.")
+        return
+    print(racist_mf[racist_mf_x-1])
+racist_mf = []
+racist_mf_l = [1,2,3,4,5]
+for i in racist_mf_l:
+    url = r"https://raw.githubusercontent.com/uchihamadara6969/sem6lab/main/text/"+str(i)+".txt"
+    res = requests.get(url).text
+    racist_mf.append(res)

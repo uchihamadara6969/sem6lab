@@ -1,0 +1,33 @@
+!git clone https://github.com/WongKinYiu/yolov9.git
+%cd yolov9
+!wget  https://github.com/WongKinYiu/yolov9/releases/download/v0.1/yolov9-c-converted.pt
+
+
+!python detect.py --source './data/images/horses.jpg' --img 640 \
+  --device "cpu" --weights './yolov9-c-converted.pt' \
+  --name yolov9_c_c_640_detect
+
+
+import matplotlib.pyplot as plt
+import cv2
+img = cv2.imread('/content/yolov9/runs/detect/yolov9_c_c_640_detect2/horses.jpg')
+plt.figure(figsize=(20,30))
+plt.imshow(img)
+plt.xticks([])
+plt.yticks([])
+plt.show()
+
+
+!python detect.py --source '/content/person.jpg' --img 640 \
+  --device "cpu" --weights './yolov9-c-converted.pt' \
+  --name yolov9_c_c_640_detect
+
+
+import matplotlib.pyplot as plt
+import cv2
+img = cv2.imread('/content/yolov9/runs/detect/yolov9_c_c_640_detect14/person.jpg')
+plt.figure(figsize=(20,30))
+plt.imshow(img)
+plt.xticks([])
+plt.yticks([])
+plt.show()

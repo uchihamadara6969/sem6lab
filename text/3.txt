@@ -1,0 +1,128 @@
+!pip install opendatasets
+!pip install pandas
+!pip install tensorflow-hub
+
+import opendatasets as od
+import pandas
+
+od.download("dataset link")
+
+import tensorflow as tf
+
+train_dir = '/content/cars-image-dataset/Cars Dataset/train'
+test_dir = '/content/cars-image-dataset/Cars Dataset/test'
+
+# Load training data
+train_dataset = tf.keras.preprocessing.image_dataset_from_directory(
+    train_dir,
+    image_size=(224, 224),
+    batch_size=32,
+    label_mode='int'
+)
+
+# Load testing data
+test_dataset = tf.keras.preprocessing.image_dataset_from_directory(
+    test_dir,
+    image_size=(224, 224),
+    batch_size=32,
+    label_mode='int'
+)
+
+num_classes = 7
+
+# Define the CNN model
+model = tf.keras.Sequential([
+    tf.keras.layers.Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(224, 224, 3)),
+    tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.Dense(num_classes, activation='softmax')
+])
+# Compile the model
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+# Train the model
+history = model.fit(train_dataset, epochs=2, validation_data=test_dataset)
+
+# Evaluate the model
+loss, accuracy = model.evaluate(test_dataset)
+print('Test loss:', loss)
+print('Test accuracy:', accuracy)
+model.summary()
+
+import tensorflow as tf
+from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D,Dropout
+
+base_model = ResNet50(weights='imagenet', include_top=False)
+
+base_model.trainable = False
+
+x = base_model.output
+x = GlobalAveragePooling2D()(x)
+x = Dense(128, activation='relu')(x)
+x = Dropout(0.5)(x)
+
+predictions = Dense(num_classes, activation='softmax')(x)
+
+model = tf.keras.Model(inputs=base_model.input, outputs=predictions)
+
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+history = model.fit(train_dataset, epochs=2, validation_data=test_dataset)
+
+loss, accuracy = model.evaluate(test_dataset)
+print('Test loss:', loss)
+print('Test accuracy:', accuracy)
+
+import tensorflow as tf
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D,Dropout
+
+base_model = VGG16(weights='imagenet', include_top=False)
+
+base_model.trainable = False
+
+x = base_model.output
+x = GlobalAveragePooling2D()(x)
+x = Dense(128, activation='relu')(x)
+x = Dropout(0.5)(x)
+predictions = Dense(15, activation='softmax')(x)
+
+model = tf.keras.Model(inputs=base_model.input, outputs=predictions)
+
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+history = model.fit(train_dataset, epochs=2, validation_data=test_dataset)
+
+loss, accuracy = model.evaluate(test_dataset)
+print('Test loss:', loss)
+print('Test accuracy:', accuracy)
+
+import tensorflow as tf
+from tensorflow.keras.applications import InceptionV3
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D,Dropout
+
+
+# Load the InceptionV3 (GoogLeNet) model with pre-trained weights
+base_model = InceptionV3(weights='imagenet', include_top=False)
+
+base_model.trainable = False
+
+x = base_model.output
+x = GlobalAveragePooling2D()(x)
+x = Dense(128, activation='relu')(x)
+x = Dropout(0.5)(x)
+predictions = Dense(15, activation='softmax')(x)
+
+model = tf.keras.Model(inputs=base_model.input, outputs=predictions)
+
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+
+history = model.fit(train_dataset, epochs=2, validation_data=test_dataset)
+
+loss, accuracy = model.evaluate(test_dataset)
+print('Test loss:', loss)
+print('Test accuracy:', accuracy)
