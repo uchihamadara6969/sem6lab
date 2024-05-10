@@ -123,6 +123,18 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 
 history = model.fit(train_dataset, epochs=2, validation_data=test_dataset)
 
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
+plt.plot(range(1,len(acc)+1),acc,label='Training accuracy')
+plt.plot(range(1,len(val_acc)+1),val_acc,label='Validation Accuracy')
+plt.plot()
+
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+plt.plot(range(1,len(acc)+1),acc,label='Loss')
+plt.plot(range(1,len(val_acc)+1),val_acc,label='Validation Loss')
+plt.plot()
+
 loss, accuracy = model.evaluate(test_dataset)
 print('Test loss:', loss)
 print('Test accuracy:', accuracy)
