@@ -34,7 +34,14 @@ loss_fn(y_train[:1], predictions).numpy()
 model.compile(optimizer='adam',
               loss=loss_fn,
               metrics=['accuracy'])
-model.fit(x_train, y_train, epochs=5)
+history=model.fit(x_train, y_train, epochs=5)
+acc = history.history['accuracy']
+val_acc = history.history['loss']
+plt.plot(range(1,len(acc)+1),acc,label='Training accuracy')
+plt.plot(range(1,len(val_acc)+1),val_acc,label='Loss')
+plt.plot()
+
+train_acc = history.history
 
 model.evaluate(x_test,  y_test, verbose=2)
 
